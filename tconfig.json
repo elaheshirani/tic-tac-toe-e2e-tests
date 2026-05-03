@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "Node",
+        "esModuleInterop": true,
+        "strict": false,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "types": [
+            "@cucumber/cucumber",
+            "node"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "src"
+    ]
+}
