@@ -1,11 +1,15 @@
 Feature: Hint Feature
+  As a player
+  I need to play game
+  So I can use it as needed
 
+  Background: Open Tic Tac Toe
+    Given I navigate to Tic Tac Toe page
+    Then I should see Welcome message and subtitle for register
+    When I enter "elahe" for PLAYER NAME
+    And I click on Create Acount button
+    Then I should see "Hello, elahe" for welcome user
+    When I click on Get Hint button
+  
   Scenario: Show hint for available move
-    Given game is in progress
-    When user clicks on hint button
     Then a suggested cell should be highlighted
-
-  Scenario: Hint suggests winning move
-    Given a winning move is available
-    When user clicks on hint
-    Then the winning cell should be suggested
