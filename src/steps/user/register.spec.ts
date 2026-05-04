@@ -2,7 +2,7 @@ import { Given, Then, When } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
 import { CustomWorld } from '../../support/world'
 import { config } from '../../support/config'
-import { REGISTER_TEXTS } from '../../data/data'
+import { TEXTS } from '../../data/data'
 
 Given('I navigate to Tic Tac Toe page', async function (this: CustomWorld) {
     await this.page.goto(config.BASE_URL)
@@ -10,9 +10,9 @@ Given('I navigate to Tic Tac Toe page', async function (this: CustomWorld) {
 
 Then('I should see Welcome message and subtitle for register', async function (this: CustomWorld) {
     await expect(this.page.getByTestId('auth-title'))
-        .toHaveText(REGISTER_TEXTS.title)
+        .toHaveText(TEXTS.en.title)
     await expect(this.page.getByTestId('auth-subtitle'))
-        .toHaveText(REGISTER_TEXTS.subtitle)
+        .toHaveText(TEXTS.en.subtitle)
 })
 
 Then('I should see Language change button', async function (this: CustomWorld) {
@@ -35,7 +35,7 @@ When('I click on Create Acount button', async function (this: CustomWorld) {
 
 Then('I should see a message for user game subtitle',
     async function (this: CustomWorld) {
-        await expect(this.page.getByTestId('subtitle')).toHaveText(REGISTER_TEXTS.gameSubtitle)
+        await expect(this.page.getByTestId('subtitle')).toHaveText(TEXTS.en.gameSubtitle)
     }
 )
 

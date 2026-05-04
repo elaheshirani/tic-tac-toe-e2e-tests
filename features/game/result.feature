@@ -22,7 +22,6 @@ Feature: Game Result
     Then the game result should be draw
     And no winning cells should be highlighted
 
-  @only
   Scenario: No moves allowed after game ends
     When the game is finished
     And I click on any cell

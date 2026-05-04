@@ -30,3 +30,9 @@ Feature: Game Play
     When I click on an empty cell
     Then "X" should be placed in that cell
     And computer should make a move automatically
+
+  Scenario: Complete user journey
+    When I start a new game
+    And I play until the game ends
+    Then a result should be displayed
+    And the result should be saved in history
