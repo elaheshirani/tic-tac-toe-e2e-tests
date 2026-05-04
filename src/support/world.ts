@@ -16,6 +16,7 @@ export class CustomWorld extends World {
 
   lastClickedCell: number | null = null
   lastCellValue: string | null = null
+  clickedCellBefore?: string | null
 
   constructor(options: IWorldOptions) {
     super(options)

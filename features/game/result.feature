@@ -16,13 +16,14 @@ Feature: Game Result
     Then I should win the game
     And winning cells should be highlighted
 
-  @only
   Scenario: Full game ends in a draw
-    When I play until the board is almost full
+    When the board is almost full
+    And I click on the last empty cell
     Then the game result should be draw
     And no winning cells should be highlighted
 
+  @only
   Scenario: No moves allowed after game ends
-    Given the game is finished
-    When user clicks on any cell
+    When the game is finished
+    And I click on any cell
     Then no move should be applied

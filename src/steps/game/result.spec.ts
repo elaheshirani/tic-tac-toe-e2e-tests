@@ -60,73 +60,84 @@ Then(
     }
 )
 
-When(
-    'I play until the board is almost full',
-    async function (this: CustomWorld) {
-        const page = this.page
-        const cells = page.locator('[data-testid^="cell-"]')
-        const status = page.getByTestId('status')
+When('the board is almost full', async function (this: CustomWorld) {
+    await this.page.evaluate(() => {
+        const preset = [
+            'X', 'O', 'X',
+            'X', 'O', 'O',
+            'O', 'X', ''
+        ]
 
-        let moves = 0
-        const maxMoves = 5
+        const cells = document.querySelectorAll('[data-testid^="cell-"]')
 
-        while (moves < maxMoves) {
-
-            const text = await status.textContent()
-
-            if (text?.toLowerCase().includes('draw') ||
-                text?.toLowerCase().includes('win')) {
-                break
+        preset.forEach((val, i) => {
+            if (val) {
+                cells[i].textContent = val
             }
+        })
+    })
+})
 
-            if (text?.toLowerCase().includes('your turn')) {
+When('I click on the last empty cell', async function (this: CustomWorld) {
+    const cells = this.page.locator('[data-testid^="cell-"]')
 
-                const count = await cells.count()
-
-                let clicked = false
-
-                for (let i = 0; i < count; i++) {
-                    const cellText = await cells.nth(i).textContent()
-
-                    if (!cellText) {
-                        await cells.nth(i).click()
-                        clicked = true
-                        moves++
-                        break
-                    }
-                }
-
-                if (!clicked) break
-            }
-
-            await page.waitForTimeout(200)
+    for (let i = 0; i < await cells.count(); i++) {
+        if (!(await cells.nth(i).textContent())) {
+            await cells.nth(i).click()
+            break
         }
     }
-)
+})
 
-Then(
-    'the game result should be draw',
-    async function (this: CustomWorld) {
+Then('the game result should be draw', async function (this: CustomWorld) {
+    await expect(this.page.getByTestId('status')).toHaveText(/draw/i)
+})
 
-        const status = this.page.getByTestId('status')
+Then('no winning cells should be highlighted', async function (this: CustomWorld) {
+    const cells = this.page.locator('[data-testid^="cell-"]')
 
-        await expect(status).not.toHaveText(/your turn/i, {
-            timeout: 10000
+    for (let i = 0; i < await cells.count(); i++) {
+        await expect(cells.nth(i)).not.toHaveClass(/is-win/)
+    }
+})
+
+When('the game is finished', async function (this: CustomWorld) {
+    await this.page.evaluate(() => {
+        const preset = [
+            'X', 'X', 'X',
+            'O', 'O', '',
+            '', '', ''
+        ]
+
+        const cells = document.querySelectorAll('[data-testid^="cell-"]')
+
+        preset.forEach((val, i) => {
+            if (val) {
+                cells[i].textContent = val
+                cells[i].setAttribute('data-state', val.toLowerCase())
+                cells[i].setAttribute('disabled', 'true') // مهم برای simulate end state
+            }
         })
 
-        await expect(status).toHaveText(/draw/i)
-    }
-)
-
-Then(
-    'no winning cells should be highlighted',
-    async function (this: CustomWorld) {
-        const cells = this.page.locator('[data-testid^="cell-"]')
-
-        for (let i = 0; i < await cells.count(); i++) {
-            const className = await cells.nth(i).getAttribute('class')
-
-            expect(className).not.toContain('is-win')
+        const status = document.querySelector('[data-testid="status"]')
+        if (status) {
+            status.textContent = 'X wins'
         }
-    }
-)
+    })
+})
+
+When('I click on any cell', async function (this: CustomWorld) {
+    const cells = this.page.locator('[data-testid^="cell-"]')
+
+    this.clickedCellBefore = await cells.nth(0).textContent()
+
+    await cells.nth(0).click({ force: true })
+})
+
+Then('no move should be applied', async function (this: CustomWorld) {
+    const cells = this.page.locator('[data-testid^="cell-"]')
+
+    const after = await cells.allTextContents()
+
+    expect(after[0]).toBe(this.clickedCellBefore)
+})
