@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "e2e": "tsx ./node_modules/@cucumber/cucumber/bin/cucumber.js",
-    "e2e:only": "npm run e2e -- --tags @only",
-    "e2e:smoke": "npm run e2e -- --tags @smoke"
+    "e2e:only": "npm run e2e -- --tags @only"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^12.2.0",
