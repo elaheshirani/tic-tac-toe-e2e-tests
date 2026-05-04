@@ -54,7 +54,3 @@ Then('I should see a message in red color saying {string} under input box Player
 When('I click Logout button', async function (this: CustomWorld) {
     await this.page.getByTestId('btn-logout').click()
 })
-
-
-
-

@@ -60,4 +60,4 @@ Then('the board should contain both X and O', async function (this: CustomWorld)
 
     expect(hasX).toBeTruthy()
     expect(hasO).toBeTruthy()
-});
+})

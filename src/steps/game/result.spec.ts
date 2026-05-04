@@ -17,7 +17,6 @@ When(
     }
 )
 
-
 When(
     'I complete the third cell',
     async function (this: CustomWorld) {
@@ -115,7 +114,7 @@ When('the game is finished', async function (this: CustomWorld) {
             if (val) {
                 cells[i].textContent = val
                 cells[i].setAttribute('data-state', val.toLowerCase())
-                cells[i].setAttribute('disabled', 'true') // مهم برای simulate end state
+                cells[i].setAttribute('disabled', 'true')
             }
         })
 
