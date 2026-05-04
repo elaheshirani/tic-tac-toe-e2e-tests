@@ -34,4 +34,4 @@ export const TEXTS = {
         hintButton: "راهنمایی",
         newButton: "بازی جدید"
     }
-};
+}

@@ -39,4 +39,3 @@ Then('history should be empty', async function (this: CustomWorld) {
     const count = await items.count()
     expect(count).toBe(0)
 })
-
